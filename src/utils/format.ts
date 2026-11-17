@@ -1,16 +1,21 @@
 export const formatVnd = (v: number | string | null | undefined) =>
   v === null || v === undefined || v === "" ? "—" : Number(v).toLocaleString("vi-VN") + " ₫";
 
-export const formatDateTime = (iso?: string | null) =>
-  iso
-    ? new Date(iso).toLocaleString("vi-VN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : "—";
+export const formatDateTime = (iso?: string | null) => {
+  if (!iso) return "—";
+  const normalized = iso.includes(" ") && !iso.includes("T") ? iso.replace(" ", "T") : iso;
+  const hasTz = /[zZ]|[+-]\d{2}:?\d{2}$/.test(normalized);
+  const d = new Date(hasTz ? normalized : `${normalized}+07:00`);
+  if (isNaN(d.getTime())) return iso;
+  return d.toLocaleString("vi-VN", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 export const formatDuration = (m: number) => {
   if (!m) return "—";
@@ -19,11 +24,17 @@ export const formatDuration = (m: number) => {
   return h ? `${h}h${mm ? ` ${mm}p` : ""}` : `${mm} phút`;
 };
 
-/** yyyy-MM-dd theo giờ local */
+/** yyyy-MM-dd theo giờ Việt Nam (Asia/Ho_Chi_Minh) */
 export const toIsoDate = (d: Date) => {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(d);
+  const y = parts.find((p) => p.type === "year")?.value ?? d.getFullYear();
+  const m = parts.find((p) => p.type === "month")?.value ?? String(d.getMonth() + 1).padStart(2, "0");
+  const day = parts.find((p) => p.type === "day")?.value ?? String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 };
 
