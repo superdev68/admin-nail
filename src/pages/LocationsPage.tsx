@@ -169,7 +169,7 @@ export default function LocationsPage() {
       })}
       rowTitle={(r) => r.name}
       onChanged={refreshOptions}
-      defaultSort="id,asc"
+      defaultSort="id,desc"
       searchPlaceholder="Tìm theo tên chi nhánh, địa chỉ, hotline..."
     />
   );

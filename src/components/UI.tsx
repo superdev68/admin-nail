@@ -49,6 +49,18 @@ export const TECH_STATUS: Record<string, { label: string; tone: keyof typeof ton
   off: { label: "Nghỉ", tone: "gray" },
 };
 
+export const APPOINTMENT_STATUS: Record<string, { label: string; tone: keyof typeof tones }> = {
+  pending: { label: "Chờ xác nhận", tone: "amber" },
+  confirmed: { label: "Đã xác nhận", tone: "brand" },
+  completed: { label: "Hoàn thành", tone: "green" },
+  cancelled: { label: "Đã hủy", tone: "red" },
+};
+
+export function AppointmentStatusBadge({ status }: { status: string }) {
+  const meta = APPOINTMENT_STATUS[status] || { label: status, tone: "gray" };
+  return <Badge tone={meta.tone}>{meta.label}</Badge>;
+}
+
 export function Avatar({ name, url, size = 36 }: { name: string; url?: string | null; size?: number }) {
   const ini = name
     .split(/[\s_]+/)

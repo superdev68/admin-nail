@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { CalendarDays, LayoutDashboard, LogOut, MapPin, Menu, Scissors, Shapes, Users, X } from "lucide-react";
+import { CalendarCheck, CalendarDays, LayoutDashboard, LogOut, MapPin, Menu, Scissors, Shapes, Users, X } from "lucide-react";
 import { useAuth } from "../auth/AuthContext";
 
 export const NAV = [
   { to: "/", label: "Tổng quan", icon: LayoutDashboard, end: true },
+  { to: "/appointments", label: "Lịch hẹn", icon: CalendarCheck },
   { to: "/locations", label: "Chi nhánh", icon: MapPin },
   { to: "/service-categories", label: "Nhóm dịch vụ", icon: Shapes },
   { to: "/services", label: "Dịch vụ", icon: Scissors },

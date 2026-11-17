@@ -168,7 +168,7 @@ export default function TechniciansPage() {
       })}
       rowTitle={(r) => r.fullName}
       onChanged={reload}
-      defaultSort="id,asc"
+      defaultSort="id,desc"
       searchPlaceholder="Tìm theo tên thợ, số điện thoại..."
     />
   );

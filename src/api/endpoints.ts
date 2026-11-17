@@ -80,6 +80,34 @@ export interface DashboardStats {
   technicians: number;
   activeTechnicians: number;
   schedulesToday: number;
+  appointmentsToday?: number;
+  appointments?: number;
+}
+
+export type AppointmentStatus = "pending" | "confirmed" | "completed" | "cancelled";
+
+export interface Appointment {
+  id: number;
+  bookingCode: string;
+  locationId: number | null;
+  locationName: string | null;
+  customerId: number | null;
+  customerName: string | null;
+  customerPhone: string | null;
+  customerEmail: string | null;
+  technicianId: number | null;
+  technicianName: string | null;
+  serviceId: number | null;
+  serviceName: string | null;
+  serviceNames: string | null;
+  appointmentDate: string; // yyyy-MM-dd
+  startTime: string; // HH:mm
+  endTime: string; // HH:mm
+  guestCount: number;
+  note: string | null;
+  status: AppointmentStatus;
+  price: number | null;
+  createdAt: string;
 }
 
 export interface BulkScheduleRequest {
@@ -97,6 +125,11 @@ export const locationsApi = resource<Location>("/admin/locations");
 export const categoriesApi = resource<ServiceCategory>("/admin/service-categories");
 export const servicesApi = resource<NailService>("/admin/services");
 export const techniciansApi = resource<Technician>("/admin/technicians");
+export const appointmentsApi = {
+  ...resource<Appointment>("/admin/appointments"),
+  updateStatus: (id: number, status: AppointmentStatus | string) =>
+    api.put<Appointment>(`/admin/appointments/${id}/status`, { status }).then((r) => r.data),
+};
 export const schedulesApi = {
   ...resource<TechnicianSchedule>("/admin/technician-schedules"),
   bulk: (body: BulkScheduleRequest) =>

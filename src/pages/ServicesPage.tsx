@@ -174,7 +174,7 @@ export default function ServicesPage() {
         durationMinutes: Number(f.durationMinutes),
       })}
       rowTitle={(r) => r.name}
-      defaultSort="id,asc"
+      defaultSort="id,desc"
       searchPlaceholder="Tìm dịch vụ theo tên, mô tả..."
     />
   );

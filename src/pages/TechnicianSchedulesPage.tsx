@@ -47,6 +47,13 @@ export default function TechnicianSchedulesPage() {
   const columns: ColumnDef<TechnicianSchedule>[] = useMemo(
     () => [
       {
+        key: "id",
+        label: "ID",
+        sortKey: "id",
+        className: "w-16 text-center text-muted font-mono text-xs",
+        render: (r) => `#${r.id}`,
+      },
+      {
         key: "workDate",
         label: "Ngày làm việc",
         sortKey: "workDate",
@@ -252,7 +259,7 @@ export default function TechnicianSchedulesPage() {
           endTime: f.isOff ? "00:00" : f.endTime,
         })}
         rowTitle={(r) => `${r.technicianName} (${r.workDate})`}
-        defaultSort="workDate,asc"
+        defaultSort="workDate,desc"
         searchPlaceholder="Tìm kiếm theo tên thợ..."
       />
 

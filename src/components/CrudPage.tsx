@@ -60,7 +60,7 @@ export interface CrudPageProps<T extends { id: number }> {
   emptyForm: FormValues;
   toForm: (row: T) => FormValues;
   toPayload?: (form: FormValues) => any;
-  defaultSort?: string; // "id,asc"
+  defaultSort?: string; // "id,desc"
   searchPlaceholder?: string;
   rowTitle: (row: T) => string;
   onChanged?: () => void;
@@ -71,7 +71,7 @@ export interface CrudPageProps<T extends { id: number }> {
 export default function CrudPage<T extends { id: number }>(props: CrudPageProps<T>) {
   const {
     title, subtitle, icon, entityName, api, columns, fields, filters = [], initialFilters = {},
-    emptyForm, toForm, toPayload = (f) => f, defaultSort = "id,asc", searchPlaceholder, rowTitle,
+    emptyForm, toForm, toPayload = (f) => f, defaultSort = "id,desc", searchPlaceholder, rowTitle,
     onChanged, headerExtra, modalWidth = "md",
   } = props;
 
@@ -176,8 +176,8 @@ export default function CrudPage<T extends { id: number }>(props: CrudPageProps<
 
   const toggleSort = (key: string) => {
     const [cur, dir] = sort.split(",");
-    if (cur !== key) setSort(`${key},asc`);
-    else setSort(`${key},${dir === "asc" ? "desc" : "asc"}`);
+    if (cur !== key) setSort(`${key},desc`);
+    else setSort(`${key},${dir === "desc" ? "asc" : "desc"}`);
   };
 
   const hasFilter = useMemo(() => q || Object.values(filterValues).some(Boolean), [q, filterValues]);

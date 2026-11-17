@@ -9,6 +9,13 @@ export default function ServiceCategoriesPage() {
   const columns: ColumnDef<ServiceCategory>[] = useMemo(
     () => [
       {
+        key: "id",
+        label: "ID",
+        sortKey: "id",
+        className: "w-16 text-center text-muted font-mono text-xs",
+        render: (r) => `#${r.id}`,
+      },
+      {
         key: "sortOrder",
         label: "Thứ tự",
         sortKey: "sortOrder",
@@ -90,7 +97,7 @@ export default function ServiceCategoriesPage() {
       })}
       rowTitle={(r) => r.name}
       onChanged={refreshOptions}
-      defaultSort="sortOrder,asc"
+      defaultSort="id,desc"
       searchPlaceholder="Tìm theo tên nhóm..."
     />
   );

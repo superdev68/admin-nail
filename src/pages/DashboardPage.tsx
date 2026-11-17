@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarDays, MapPin, Scissors, Shapes, Users } from "lucide-react";
+import { ArrowRight, CalendarCheck, CalendarDays, MapPin, Scissors, Shapes, Users } from "lucide-react";
 import toast from "react-hot-toast";
 import { errorMessage } from "../api/client";
 import { DashboardStats, metaApi } from "../api/endpoints";
@@ -15,6 +15,13 @@ export default function DashboardPage() {
   }, []);
 
   const cards = [
+    {
+      to: "/appointments",
+      label: "Lịch hẹn hôm nay",
+      value: stats?.appointmentsToday ?? stats?.appointments,
+      icon: CalendarCheck,
+      hint: stats?.appointments !== undefined ? `${stats.appointments} tổng đơn` : "Đơn đặt chỗ",
+    },
     { to: "/locations", label: "Chi nhánh", value: stats?.locations, icon: MapPin, hint: "Hà Nội & TP HCM" },
     { to: "/service-categories", label: "Nhóm dịch vụ", value: stats?.serviceCategories, icon: Shapes, hint: "Nail, Mi, Wax..." },
     { to: "/services", label: "Dịch vụ", value: stats?.services, icon: Scissors, hint: "Bảng giá & thời lượng" },
@@ -52,7 +59,7 @@ export default function DashboardPage() {
         </a>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         {cards.map(({ to, label, value, icon: Icon, hint }) => (
           <Link key={to} to={to} className="card group p-5 transition hover:-translate-y-0.5 hover:border-brand-line">
             <div className="flex items-center justify-between">
