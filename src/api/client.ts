@@ -57,7 +57,21 @@ export interface PageResponse<T> {
 export function resource<T, P = Partial<T>>(path: string) {
   return {
     list: (params: Record<string, unknown>) =>
-      api.get<PageResponse<T>>(path, { params: clean(params) }).then((r) => r.data),
+      api.get<any>(path, { params: clean(params) }).then((r) => {
+        const d = r.data || {};
+        const items = (Array.isArray(d) ? d : d.items ?? d.content ?? []) as T[];
+        const totalItems = (d.totalItems ?? d.totalElements ?? items.length) as number;
+        const totalPages = (d.totalPages ?? (totalItems > 0 ? 1 : 0)) as number;
+        const page = (d.page ?? 0) as number;
+        const size = (d.size ?? (params.size as number) ?? 20) as number;
+        return {
+          items,
+          totalItems,
+          totalPages,
+          page,
+          size,
+        } as PageResponse<T>;
+      }),
     get: (id: number) => api.get<T>(`${path}/${id}`).then((r) => r.data),
     create: (body: P) => api.post<T>(path, body).then((r) => r.data),
     update: (id: number, body: P) => api.put<T>(`${path}/${id}`, body).then((r) => r.data),
