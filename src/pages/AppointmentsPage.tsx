@@ -235,24 +235,26 @@ export default function AppointmentsPage() {
 
       {/* Filter Card */}
       <div className="card mb-6 p-4">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {/* Search */}
-          <div className="relative lg:col-span-2">
+          <div className="relative flex h-10 items-center lg:col-span-2">
             <Search
               size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+              className="pointer-events-none absolute left-3 text-muted"
             />
             <input
               type="text"
               placeholder="Tìm theo mã đặt lịch, tên khách, số ĐT..."
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              className="w-full rounded-xl border border-line bg-white py-2 pl-9 pr-3 text-sm focus:border-brand focus:outline-none"
+              className="h-full w-full rounded-xl border border-line bg-white pl-9 pr-8 text-sm focus:border-brand focus:outline-none"
             />
             {q && (
               <button
+                type="button"
                 onClick={() => setQ("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-ink"
+                className="absolute right-2.5 flex h-5 w-5 items-center justify-center rounded-full text-muted hover:bg-canvas hover:text-ink"
+                title="Xóa tìm kiếm"
               >
                 <X size={14} />
               </button>
@@ -264,7 +266,7 @@ export default function AppointmentsPage() {
             <select
               value={locationId}
               onChange={(e) => setLocationId(e.target.value)}
-              className="w-full rounded-xl border border-line bg-white px-3 py-2 text-sm focus:border-brand focus:outline-none"
+              className="h-10 w-full rounded-xl border border-line bg-white px-3 text-sm focus:border-brand focus:outline-none"
             >
               <option value="">Tất cả chi nhánh</option>
               {locationOptions.map((opt) => (
@@ -280,7 +282,7 @@ export default function AppointmentsPage() {
             <select
               value={technicianId}
               onChange={(e) => setTechnicianId(e.target.value)}
-              className="w-full rounded-xl border border-line bg-white px-3 py-2 text-sm focus:border-brand focus:outline-none"
+              className="h-10 w-full rounded-xl border border-line bg-white px-3 text-sm focus:border-brand focus:outline-none"
             >
               <option value="">Tất cả thợ (KTV)</option>
               {technicianOptions.map((opt) => (
@@ -296,7 +298,7 @@ export default function AppointmentsPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="w-full rounded-xl border border-line bg-white px-3 py-2 text-sm focus:border-brand focus:outline-none"
+              className="h-10 w-full rounded-xl border border-line bg-white px-3 text-sm focus:border-brand focus:outline-none"
             >
               <option value="id,desc">ID (Mới nhất)</option>
               <option value="id,asc">ID (Cũ nhất)</option>
@@ -306,34 +308,12 @@ export default function AppointmentsPage() {
               <option value="createdAt,asc">Thời gian đặt (Cũ nhất)</option>
             </select>
           </div>
-
-          {/* Quick date presets */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setQuickDate("today")}
-              className="rounded-lg border border-line bg-white px-2.5 py-2 text-xs font-medium text-ink hover:bg-brand-soft hover:text-brand"
-            >
-              Hôm nay
-            </button>
-            <button
-              onClick={() => setQuickDate("tomorrow")}
-              className="rounded-lg border border-line bg-white px-2.5 py-2 text-xs font-medium text-ink hover:bg-brand-soft hover:text-brand"
-            >
-              Ngày mai
-            </button>
-            <button
-              onClick={() => setQuickDate("next7")}
-              className="rounded-lg border border-line bg-white px-2.5 py-2 text-xs font-medium text-ink hover:bg-brand-soft hover:text-brand"
-            >
-              7 ngày tới
-            </button>
-          </div>
         </div>
 
         {/* Date range row & PageSize */}
         <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-line/60 pt-3 text-xs text-muted">
           <div className="flex flex-wrap items-center gap-2">
-            <span>Khoảng ngày:</span>
+            <span className="font-medium text-ink">Khoảng ngày:</span>
             <input
               type="date"
               value={fromDate}
@@ -347,6 +327,31 @@ export default function AppointmentsPage() {
               onChange={(e) => setToDate(e.target.value)}
               className="rounded-lg border border-line bg-white px-2 py-1 text-xs text-ink focus:border-brand focus:outline-none"
             />
+
+            {/* Quick date presets */}
+            <div className="flex items-center gap-1 sm:ml-2">
+              <button
+                type="button"
+                onClick={() => setQuickDate("today")}
+                className="rounded-lg border border-line bg-white px-2.5 py-1 text-xs font-medium text-ink transition hover:border-brand hover:bg-brand-soft hover:text-brand"
+              >
+                Hôm nay
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuickDate("tomorrow")}
+                className="rounded-lg border border-line bg-white px-2.5 py-1 text-xs font-medium text-ink transition hover:border-brand hover:bg-brand-soft hover:text-brand"
+              >
+                Ngày mai
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuickDate("next7")}
+                className="rounded-lg border border-line bg-white px-2.5 py-1 text-xs font-medium text-ink transition hover:border-brand hover:bg-brand-soft hover:text-brand"
+              >
+                7 ngày tới
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -370,6 +375,7 @@ export default function AppointmentsPage() {
 
             {hasActiveFilters && (
               <button
+                type="button"
                 onClick={resetFilters}
                 className="flex items-center gap-1 font-medium text-brand hover:underline"
               >

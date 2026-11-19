@@ -206,31 +206,41 @@ export default function CrudPage<T extends { id: number }>(props: CrudPageProps<
 
       <div className="card overflow-hidden">
         {/* Toolbar */}
-        <div className="flex flex-col gap-3 border-b border-line p-4 lg:flex-row lg:items-center">
-          <div className="relative flex-1">
+        <div className="flex flex-col gap-3 border-b border-line p-4 lg:flex-row lg:flex-wrap lg:items-center">
+          <div className="relative w-full sm:w-72 lg:w-80 shrink-0">
             <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
             <input
-              className="input pl-9"
+              className="input pl-9 pr-8"
               placeholder={searchPlaceholder || `Tìm ${entityName}...`}
               value={q}
               onChange={(e) => setQ(e.target.value)}
             />
+            {q && (
+              <button
+                type="button"
+                onClick={() => setQ("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center rounded-full text-muted hover:bg-canvas hover:text-ink"
+                title="Xóa tìm kiếm"
+              >
+                <X size={13} />
+              </button>
+            )}
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {filters.map((f) =>
               f.type === "date" ? (
                 <input
                   key={f.name}
                   type="date"
                   title={f.label}
-                  className="input w-auto"
+                  className="input w-auto text-xs py-2"
                   value={filterValues[f.name] || ""}
                   onChange={(e) => setFilterValues((s) => ({ ...s, [f.name]: e.target.value }))}
                 />
               ) : (
                 <Select
                   key={f.name}
-                  className="w-auto min-w-[160px]"
+                  className="w-auto min-w-[150px]"
                   value={filterValues[f.name]}
                   placeholder={f.label}
                   options={f.options || []}
@@ -240,6 +250,7 @@ export default function CrudPage<T extends { id: number }>(props: CrudPageProps<
             )}
             {hasFilter && (
               <button
+                type="button"
                 className="btn-ghost"
                 onClick={() => {
                   setQ("");
@@ -249,7 +260,7 @@ export default function CrudPage<T extends { id: number }>(props: CrudPageProps<
                 <X size={14} /> Xóa lọc
               </button>
             )}
-            <button className="btn-ghost px-3" title="Tải lại" onClick={() => setReloadKey((k) => k + 1)}>
+            <button type="button" className="btn-ghost px-3" title="Tải lại" onClick={() => setReloadKey((k) => k + 1)}>
               <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
             </button>
           </div>
