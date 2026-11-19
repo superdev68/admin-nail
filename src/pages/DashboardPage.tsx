@@ -47,10 +47,10 @@ export default function DashboardPage() {
         <h1 className="font-display text-3xl font-semibold">{username} 💅</h1>
         <p className="mt-2 max-w-lg text-sm text-white/80">
           Quản lý chi nhánh, dịch vụ, đội ngũ thợ và lịch làm việc của Nail Room – Mit’s House. Dữ liệu được dùng cho
-          trang đặt lịch book.nailroom.vn.
+          trang đặt lịch nail.banmacbook.com.
         </p>
         <a
-          href="https://book.nailroom.vn"
+          href="https://nail.banmacbook.com/"
           target="_blank"
           rel="noreferrer"
           className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand-deep hover:bg-brand-soft"
